@@ -4,20 +4,28 @@
  */
 package br.gm.brunoriul.OSApiApplication.domain.model;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+
 /**
  *
  * @author digma
  */
+@Entity
 public class Cliente {
-    
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
     private String nome;
     private String email;
     private String fone;
-    
+
     public Cliente() {
     }
-    
+
     public Cliente(long id, String nome, String email, String fone) {
         this.id = id;
         this.nome = nome;
@@ -78,11 +86,5 @@ public class Cliente {
         final Cliente other = (Cliente) obj;
         return this.id == other.id;
     }
-    
-    
 
-    
-    
-    
-    
 }
