@@ -27,16 +27,6 @@ public class Cliente {
     @Column(name = "telefone")
     private String fone;
 
-    public Cliente() {
-    }
-
-    public Cliente(long id, String nome, String email, String fone) {
-        this.id = id;
-        this.nome = nome;
-        this.email = email;
-        this.fone = fone;
-    }
-
     public long getId() {
         return id;
     }
