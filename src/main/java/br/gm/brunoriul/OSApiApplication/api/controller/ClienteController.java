@@ -6,6 +6,7 @@ package br.gm.brunoriul.OSApiApplication.api.controller;
 
 import br.gm.brunoriul.OSApiApplication.domain.model.Cliente;
 import br.gm.brunoriul.OSApiApplication.domain.repository.ClienteRepository;
+import br.gm.brunoriul.OSApiApplication.domain.service.ClienteService;
 import jakarta.validation.Valid;
 import java.util.List;
 import java.util.Optional;
@@ -25,7 +26,6 @@ import org.springframework.web.bind.annotation.RestController;
  *
  * @author digma
  */
-
 @RestController
 public class ClienteController {
 
@@ -33,52 +33,54 @@ public class ClienteController {
     private ClienteRepository clienteRepository;
 
     @GetMapping("/cliente")
-    public List<Cliente> listas() {    
+    public List<Cliente> listas() {
         return clienteRepository.findAll();
-   }
-    
+    }
+
+    @Autowired
+    private ClienteService clienteService;
+
     @GetMapping("/cliente/{clienteID}")
-    public ResponseEntity<Cliente> buscar(@PathVariable Long clienteID){
-        
+    public ResponseEntity<Cliente> buscar(@PathVariable Long clienteID) {
+
         Optional<Cliente> cliente = clienteRepository.findById(clienteID);
-        
+
         if (cliente.isPresent()) {
             return ResponseEntity.ok(cliente.get());
-        }
-        else{
+        } else {
             return ResponseEntity.notFound().build();
         }
     }
-    
+
     @PostMapping("/cliente")
     @ResponseStatus(HttpStatus.CREATED)
     public Cliente adicionar(@Valid @RequestBody Cliente cliente) {
-        return clienteRepository.save(cliente); 
+        return clienteService.salvar(cliente);
     }
-    
+
     @PutMapping("/cliente/{clienteID}")
-    public ResponseEntity<Cliente> atualizar(@Valid @PathVariable Long clienteID, @RequestBody Cliente cliente){
+    public ResponseEntity<Cliente> atualizar(@Valid @PathVariable Long clienteID, @RequestBody Cliente cliente) {
         //Verifica se o cliente existe
-        if (!clienteRepository.existsById(clienteID)){
+        if (!clienteRepository.existsById(clienteID)) {
             return ResponseEntity.notFound().build();
         }
-        
+
         cliente.setId(clienteID);
-        cliente = clienteRepository.save(cliente);
+        cliente = clienteService.salvar(cliente);
         return ResponseEntity.ok(cliente);
-        
+
     }
-    
+
     @DeleteMapping("/cliente/{clienteID}")
-    public ResponseEntity<Cliente> excluir(@PathVariable Long clienteID){
+    public ResponseEntity<Cliente> excluir(@PathVariable Long clienteID) {
         //Verifica se o cliente existe
-        if (!clienteRepository.existsById(clienteID)){
+        if (!clienteRepository.existsById(clienteID)) {
             return ResponseEntity.notFound().build();
         }
-        
-        clienteRepository.deleteById(clienteID);
+
+        clienteService.excluir(clienteID);
         return ResponseEntity.noContent().build();
-        
+
     }
 
 }
