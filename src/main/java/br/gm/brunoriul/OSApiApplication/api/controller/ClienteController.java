@@ -32,13 +32,13 @@ public class ClienteController {
     @Autowired
     private ClienteRepository clienteRepository;
 
+    @Autowired
+    private ClienteService clienteService;
+
     @GetMapping("/cliente")
     public List<Cliente> listas() {
         return clienteRepository.findAll();
     }
-
-    @Autowired
-    private ClienteService clienteService;
 
     @GetMapping("/cliente/{clienteID}")
     public ResponseEntity<Cliente> buscar(@PathVariable Long clienteID) {
