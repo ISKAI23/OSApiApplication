@@ -6,11 +6,13 @@ package br.gm.brunoriul.OSApiApplication.domain.repository;
 
 import br.gm.brunoriul.OSApiApplication.domain.model.OrdemServico;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
 /**
  *
  * @author digma
  */
+
+@Repository
 public interface OrdemServicoRepository extends JpaRepository<OrdemServico, Long>{
-    
 }

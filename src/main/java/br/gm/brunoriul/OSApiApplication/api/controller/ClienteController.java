@@ -35,11 +35,20 @@ public class ClienteController {
     @Autowired
     private ClienteService clienteService;
 
+    /**
+     * Lista todos os clientes
+     * @return 
+     */
     @GetMapping("/cliente")
     public List<Cliente> listas() {
         return clienteRepository.findAll();
     }
 
+    /**
+     * Busca cliente por ID
+     * @param clienteID
+     * @return 
+     */
     @GetMapping("/cliente/{clienteID}")
     public ResponseEntity<Cliente> buscar(@PathVariable Long clienteID) {
 

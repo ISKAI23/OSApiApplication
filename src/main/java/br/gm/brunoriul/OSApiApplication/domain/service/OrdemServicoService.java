@@ -25,4 +25,8 @@ public class OrdemServicoService {
         return ordemServicoRepository.save(ordemServico);
     }
     
+    public void excluir(Long ordemServicoID){
+        ordemServicoRepository.deleteById(ordemServicoID);
+    }
+    
 }
