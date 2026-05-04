@@ -32,10 +32,10 @@ import org.springframework.web.bind.annotation.RestController;
 public class OrdemServicoController {
     
     @Autowired
-    private OrdemServicoService ordemServicoService;
+    private OrdemServicoRepository ordemServicoRepository;
     
     @Autowired
-    private OrdemServicoRepository ordemServicoRepository;
+    private OrdemServicoService ordemServicoService;
     
     @GetMapping
     public List<OrdemServico> listas(){
@@ -71,13 +71,12 @@ public class OrdemServicoController {
         }
         
         ordemServico.setId(ordemServicoID);
-        ordemServico = ordemServicoRepository.save(ordemServico);
-        
+        ordemServico = ordemServicoService.criar(ordemServico);
         return ResponseEntity.ok(ordemServico);
         
     }
 
-    @DeleteMapping("/{ordemServicoID}")
+    @DeleteMapping("/{ordemServicoID}") //id
     public ResponseEntity<OrdemServico> excluir(@PathVariable Long ordemServicoID){
         //Verifica se o cliente existe
         if (!ordemServicoRepository.existsById(ordemServicoID)) {
