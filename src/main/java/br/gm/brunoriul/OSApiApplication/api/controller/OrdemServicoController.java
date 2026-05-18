@@ -4,12 +4,14 @@
  */
 package br.gm.brunoriul.OSApiApplication.api.controller;
 
+import br.gm.brunoriul.OSApiApplication.domain.dto.AtualizaStatusDTO;
 import br.gm.brunoriul.OSApiApplication.domain.model.Cliente;
 import br.gm.brunoriul.OSApiApplication.domain.model.OrdemServico;
 import br.gm.brunoriul.OSApiApplication.domain.repository.ClienteRepository;
 import br.gm.brunoriul.OSApiApplication.domain.repository.OrdemServicoRepository;
 import br.gm.brunoriul.OSApiApplication.domain.service.ClienteService;
 import br.gm.brunoriul.OSApiApplication.domain.service.OrdemServicoService;
+import jakarta.validation.Valid;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -75,7 +77,7 @@ public class OrdemServicoController {
         );
     } else {
         return ResponseEntity.notFound().build();
-    }
+        }
     }
     
     @PostMapping
@@ -95,6 +97,23 @@ public class OrdemServicoController {
         ordemServico = ordemServicoService.criar(ordemServico);
         return ResponseEntity.ok(ordemServico);
         
+    }
+    
+    @PutMapping("/atualiza-status/{ordemServicoID}")
+    public ResponseEntity<OrdemServico> atualizaStatus(
+            @PathVariable Long ordemServicoID, 
+            @Valid @RequestBody AtualizaStatusDTO statusDTO){
+        
+        Optional<OrdemServico> optOS = ordemServicoService.atualizaStatus(
+                ordemServicoID, 
+                statusDTO.status());
+        
+        
+        if (optOS.isPresent()) {
+            return ResponseEntity.ok(optOS.get());
+        }else {
+            return ResponseEntity.notFound().build();
+        }
     }
 
     @DeleteMapping("/{ordemServicoID}") //id

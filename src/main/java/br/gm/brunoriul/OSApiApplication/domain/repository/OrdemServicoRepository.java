@@ -5,7 +5,9 @@
 package br.gm.brunoriul.OSApiApplication.domain.repository;
 
 import br.gm.brunoriul.OSApiApplication.domain.model.OrdemServico;
+import br.gm.brunoriul.OSApiApplication.domain.model.StatusOrdemServico;
 import java.util.List;
+import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
