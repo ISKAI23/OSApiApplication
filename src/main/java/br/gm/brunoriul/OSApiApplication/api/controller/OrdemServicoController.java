@@ -4,8 +4,11 @@
  */
 package br.gm.brunoriul.OSApiApplication.api.controller;
 
+import br.gm.brunoriul.OSApiApplication.domain.model.Cliente;
 import br.gm.brunoriul.OSApiApplication.domain.model.OrdemServico;
+import br.gm.brunoriul.OSApiApplication.domain.repository.ClienteRepository;
 import br.gm.brunoriul.OSApiApplication.domain.repository.OrdemServicoRepository;
+import br.gm.brunoriul.OSApiApplication.domain.service.ClienteService;
 import br.gm.brunoriul.OSApiApplication.domain.service.OrdemServicoService;
 import java.util.List;
 import java.util.Optional;
@@ -33,9 +36,13 @@ public class OrdemServicoController {
     
     @Autowired
     private OrdemServicoRepository ordemServicoRepository;
-    
     @Autowired
     private OrdemServicoService ordemServicoService;
+
+    @Autowired
+    private ClienteRepository clienteRepository;
+    @Autowired
+    private ClienteService clienteService;
     
     @GetMapping
     public List<OrdemServico> listas(){
@@ -55,6 +62,20 @@ public class OrdemServicoController {
             return ResponseEntity.notFound().build();
         }
         
+    }
+    
+    @GetMapping("/cliente/{clienteID}")
+    public ResponseEntity<List<OrdemServico>> buscarCliente(@PathVariable Long clienteID) {
+
+    Optional<Cliente> cliente = clienteRepository.findById(clienteID);
+
+    if (cliente.isPresent()) {
+        return ResponseEntity.ok(
+            ordemServicoRepository.findByClienteId(clienteID)
+        );
+    } else {
+        return ResponseEntity.notFound().build();
+    }
     }
     
     @PostMapping
